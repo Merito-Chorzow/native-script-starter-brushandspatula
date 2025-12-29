@@ -26,12 +26,17 @@ import { ProductsService } from "./products.service";
     <ScrollView class="page">
       <StackLayout class="card" [formGroup]="form">
         <TextField formControlName="name" hint="Name" class="input"></TextField>
+        <Label *ngIf="isInvalid('name')" text="Name is required" class="error"></Label>
+
         <TextField formControlName="code" hint="Code" class="input"></TextField>
+        <Label *ngIf="isInvalid('code')" text="Code is required" class="error"></Label>
+
         <TextField
           formControlName="status"
           hint="Status"
           class="input"
         ></TextField>
+
         <TextView
           formControlName="description"
           hint="Description"
@@ -51,7 +56,6 @@ import { ProductsService } from "./products.service";
         <Button
           text="Save"
           class="button"
-          [isEnabled]="form.valid"
           (tap)="save()"
         ></Button>
       </StackLayout>
@@ -79,6 +83,14 @@ import { ProductsService } from "./products.service";
         padding: 20;
         background-color: #ffffff;
         margin: 20;
+      }
+
+      .error {
+        color: #d83a3a;
+        margin-left: 20;
+        margin-right: 20;
+        margin-top: -10;
+        margin-bottom: 10;
       }
 
       .button,
@@ -120,6 +132,11 @@ export class AddProductComponent {
     this.router.navigate(["/products"]);
   }
 
+  isInvalid(field: "name" | "code"): boolean {
+    const ctrl = this.form.get(field);
+    return !!ctrl && ctrl.touched && ctrl.invalid;
+  }
+
   async takePhoto(): Promise<void> {
     if (Camera.isAvailable) {
       await Camera.requestPermissions();
@@ -140,6 +157,11 @@ export class AddProductComponent {
   save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+
+      if (this.isHapticsSupported) {
+        Haptics.notification(HapticNotificationType.ERROR);
+      }
+
       return;
     }
 
