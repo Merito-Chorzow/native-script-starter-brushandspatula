@@ -3,6 +3,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { NativeScriptCommonModule } from "@nativescript/angular";
 import { ProductsService } from "./products.service";
 import { Product } from "./product.model";
+import {
+  Haptics,
+  HapticNotificationType,
+  HapticImpactType,
+} from "@nativescript/haptics";
 
 @Component({
   standalone: true,
@@ -62,6 +67,8 @@ import { Product } from "./product.model";
   ],
 })
 export class ProductDetailsComponent {
+  isHapticsSupported: boolean = Haptics.isSupported();
+
   product: Product | undefined;
 
   constructor(
@@ -82,6 +89,10 @@ export class ProductDetailsComponent {
   delete(): void {
     if (!this.product) return;
     this.products.removeProductFromTheList(this.product.id);
+    if(this.isHapticsSupported){
+    Haptics.impact(HapticImpactType.HEAVY);
+    Haptics.notification(HapticNotificationType.WARNING);
+    }
     this.goBack();
   }
 }

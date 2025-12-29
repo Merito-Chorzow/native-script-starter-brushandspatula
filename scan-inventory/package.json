@@ -14,6 +14,9 @@
     "@angular/router": "~20.2.0",
     "@nativescript/angular": "^20.0.0",
     "@nativescript/core": "~9.0.0",
+    "@nativescript/haptics": "^3.1.0",
+    "@nativescript/mlkit-barcode-scanning": "^3.0.4",
+    "@nativescript/mlkit-core": "^3.0.4",
     "rxjs": "~7.8.0",
     "zone.js": "~0.15.0"
   },

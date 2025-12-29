@@ -5,7 +5,7 @@ import {
   NativeScriptCommonModule,
   NativeScriptFormsModule,
 } from "@nativescript/angular";
-
+import {Haptics, HapticNotificationType, HapticImpactType} from "@nativescript/haptics";
 import { ProductsService } from "./products.service";
 
 @Component({
@@ -84,6 +84,8 @@ import { ProductsService } from "./products.service";
   ],
 })
 export class AddProductComponent {
+  isHapticsSupported: boolean = Haptics.isSupported();
+
   form = this.formBuilder.group({
     name: ["", [Validators.required]],
     code: ["", [Validators.required]],
@@ -115,6 +117,11 @@ export class AddProductComponent {
       status: String(v.status ?? ""),
       description: String(v.description ?? ""),
     });
+
+    if(this.isHapticsSupported){
+    Haptics.impact(HapticImpactType.HEAVY);
+    Haptics.notification(HapticNotificationType.SUCCESS);
+    }
 
     this.router.navigate(["/products", created.id]);
   }
