@@ -1,42 +1,28 @@
-# NativeScript
-hooks/
-node_modules/
-platforms/
+# Angular specific
+/dist/
+/out-tsc/
+/tmp/
+/coverage/
+/e2e/test-output/
+/.angular/
+.angular/
 
-# NativeScript cache
-.nativescript/
-.cache/
+# Node modules and dependency files
+/node_modules/
+/package-lock.json
+/yarn.lock
 
-# Android build
-app/App_Resources/Android/build/
-app/App_Resources/Android/.gradle/
-*.apk
-*.aab
+# Environment files
+/.env
+
+# Angular CLI and build artefacts
+/.angular-cli.json
+/.ng/
+
+# TypeScript cache
+*.tsbuildinfo
 
 # Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Windows
-Thumbs.db
-Desktop.ini
-
-# General
-.DS_Store
-.AppleDouble
-.LSOverride
-.idea
-.cloud
-.project
-tmp/
-typings/
-
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
