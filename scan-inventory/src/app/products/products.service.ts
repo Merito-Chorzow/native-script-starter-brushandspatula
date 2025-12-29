@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Product } from "./product.model";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({ providedIn: "root" })
 export class ProductsService {
@@ -8,6 +9,9 @@ export class ProductsService {
 
   private readonly _product$ = new BehaviorSubject<Product[]>([]);
   readonly product$ = this._product$.asObservable();
+
+  constructor(private http: HttpClient) {}
+
 
   getProductValues(): Product[] {
     return this._product$.value;
@@ -26,4 +30,9 @@ export class ProductsService {
   removeProductFromTheList(id: number): void {
     this._product$.next(this._product$.value.filter(x => x.id !== id));
   }
+
+  getFromDemoApi() {
+  return this.http.get<any[]>("https://jsonplaceholder.typicode.com/posts");
+}
+
 }

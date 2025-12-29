@@ -12,6 +12,8 @@ import { ProductsService } from "./products.service";
   template: `
     <ActionBar title="Inventory" class="actionBar">
       <ActionItem text="Add" class="add-button" (tap)="goAdd()"></ActionItem>
+      <ActionItem text="API demo" class="add-button" (tap)="goApi()">
+      </ActionItem>
     </ActionBar>
 
     <GridLayout rows="auto, *" class="page">
@@ -61,16 +63,19 @@ import { ProductsService } from "./products.service";
       .title {
         font-size: 22;
         color: #0b2a20;
+        margin-bottom: 14;
       }
 
       .subtitle {
         margin-top: 4;
         color: #0b2a20;
+        margin-bottom: 14;
       }
 
       .card {
         padding: 14;
         margin-bottom: 10;
+        margin-bottom: 14;
       }
 
       .empty {
@@ -78,11 +83,13 @@ import { ProductsService } from "./products.service";
         background-color: #ffffff;
         border-width: 1;
         border-color: #cfe7d7;
+        margin-bottom: 14;
       }
       .emptyTitle,
       .cardTitle {
         font-size: 18;
         color: #0b2a20;
+        margin-bottom: 14;
       }
       .emptySubtitle,
       .cardInfo {
@@ -91,7 +98,8 @@ import { ProductsService } from "./products.service";
         margin-bottom: 14;
       }
 
-      .button, .add-button {
+      .button,
+      .add-button {
         background-color: #1e7a55;
         color: #ffffff;
         padding: 12;
@@ -109,6 +117,10 @@ export class ProductsListComponent {
 
   goAdd(): void {
     this.router.navigate(["/add"]);
+  }
+
+  goApi(): void {
+    this.router.navigate(["/api"]);
   }
 
   onItemTap(args: any): void {
