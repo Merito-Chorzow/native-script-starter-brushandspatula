@@ -1,10 +1,10 @@
-import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { PageRouterOutlet } from '@nativescript/angular';
+import { Component } from "@angular/core";
+import { NativeScriptRouterModule } from "@nativescript/angular";
 
 @Component({
-  selector: 'ns-app',
-  templateUrl: './app.component.html',
-  imports: [PageRouterOutlet],
-  schemas: [NO_ERRORS_SCHEMA],
+  standalone: true,
+  selector: "app",
+  imports: [NativeScriptRouterModule],
+  template: `<page-router-outlet></page-router-outlet>`,
 })
 export class AppComponent {}
