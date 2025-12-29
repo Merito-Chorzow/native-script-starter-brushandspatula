@@ -5,7 +5,9 @@ import {
   NativeScriptCommonModule,
   NativeScriptFormsModule,
 } from "@nativescript/angular";
-import {Haptics, HapticNotificationType, HapticImpactType} from "@nativescript/haptics";
+import { Haptics, HapticNotificationType } from "@nativescript/haptics";
+import * as Camera from "@nativescript/camera";
+import { ImageSource } from "@nativescript/core";
 import { ProductsService } from "./products.service";
 
 @Component({
@@ -36,6 +38,15 @@ import { ProductsService } from "./products.service";
           rows="4"
           class="input"
         ></TextView>
+
+        <Button text="Take photo" class="button" (tap)="takePhoto()"></Button>
+
+        <Image
+          *ngIf="form.value.photoData"
+          [src]="form.value.photoData"
+          class="photo"
+          stretch="aspectFit"
+        ></Image>
 
         <Button
           text="Save"
@@ -70,15 +81,20 @@ import { ProductsService } from "./products.service";
         margin: 20;
       }
 
-      .error {
-        color: #d83a3a;
-        margin-top: 4;
-      }
-
-      .button, .add-button  {
+      .button,
+      .add-button {
         background-color: #1e7a55;
         color: #ffffff;
         padding: 12;
+        margin: 20;
+      }
+
+      .photo {
+        margin: 20;
+        height: 220;
+        border-width: 1;
+        border-color: #cfe7d7;
+        background-color: #ffffff;
       }
     `,
   ],
@@ -91,6 +107,7 @@ export class AddProductComponent {
     code: ["", [Validators.required]],
     status: [""],
     description: [""],
+    photoData: [""],
   });
 
   constructor(
@@ -101,6 +118,23 @@ export class AddProductComponent {
 
   goBack(): void {
     this.router.navigate(["/products"]);
+  }
+
+  async takePhoto(): Promise<void> {
+    if (Camera.isAvailable) {
+      await Camera.requestPermissions();
+
+      const takePicture = await Camera.takePicture({
+        width: 1280,
+        height: 1280,
+        keepAspectRatio: true,
+        saveToGallery: false,
+      });
+
+      const source = await ImageSource.fromAsset(takePicture);
+      const base64 = source.toBase64String("jpeg", 80);
+      this.form.patchValue({ photoData: `data:image/jpeg;base64,${base64}` });
+    }
   }
 
   save(): void {
@@ -116,11 +150,11 @@ export class AddProductComponent {
       code: String(v.code),
       status: String(v.status ?? ""),
       description: String(v.description ?? ""),
+      photoData: String(v.photoData ?? ""),
     });
 
-    if(this.isHapticsSupported){
-    Haptics.impact(HapticImpactType.HEAVY);
-    Haptics.notification(HapticNotificationType.SUCCESS);
+    if (this.isHapticsSupported) {
+      Haptics.notification(HapticNotificationType.SUCCESS);
     }
 
     this.router.navigate(["/products", created.id]);

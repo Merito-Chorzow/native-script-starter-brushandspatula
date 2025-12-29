@@ -25,6 +25,12 @@ import {
         <Label [text]="product.description || '(none)'" class="label"></Label>
         <Button text="Delete" class="button" (tap)="delete()"> </Button>
         <Button text="Back to list" class="button" (tap)="goBack()"> </Button>
+        <Image
+          *ngIf="product?.photoData"
+          [src]="product.photoData"
+          class="photo"
+          stretch="aspectFit"
+        ></Image>
       </StackLayout>
     </ScrollView>
   `,
@@ -89,9 +95,9 @@ export class ProductDetailsComponent {
   delete(): void {
     if (!this.product) return;
     this.products.removeProductFromTheList(this.product.id);
-    if(this.isHapticsSupported){
-    Haptics.impact(HapticImpactType.HEAVY);
-    Haptics.notification(HapticNotificationType.WARNING);
+    if (this.isHapticsSupported) {
+      Haptics.impact(HapticImpactType.HEAVY);
+      Haptics.notification(HapticNotificationType.WARNING);
     }
     this.goBack();
   }
